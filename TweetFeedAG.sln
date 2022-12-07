@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1704.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetFeedAG", "TweetFeedAG\TweetFeedAG.csproj", "{F0751540-DE8E-416D-BE71-28B8A23C8B29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetFeedAG.Tests", "TweetFeedAG.Tests\TweetFeedAG.Tests.csproj", "{09D6FFD3-7EE5-47E0-9C38-A7C9B2F8D217}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0751540-DE8E-416D-BE71-28B8A23C8B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0751540-DE8E-416D-BE71-28B8A23C8B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0751540-DE8E-416D-BE71-28B8A23C8B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0751540-DE8E-416D-BE71-28B8A23C8B29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D6FFD3-7EE5-47E0-9C38-A7C9B2F8D217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D6FFD3-7EE5-47E0-9C38-A7C9B2F8D217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D6FFD3-7EE5-47E0-9C38-A7C9B2F8D217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D6FFD3-7EE5-47E0-9C38-A7C9B2F8D217}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0784291C-948E-4D74-846A-7913288787CD}
+	EndGlobalSection
+EndGlobal
