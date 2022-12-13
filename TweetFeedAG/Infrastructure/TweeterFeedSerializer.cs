@@ -27,9 +27,9 @@ namespace TweetFeedAG.Infrastructure
                 var orderedTweets = tweets.OrderBy(x => x.Position).ToList();
                 return orderedTweets;
             }
-            catch (TwitterFeedException ex)
+            catch (Exception ex)
             {
-                throw new TwitterFeedException("Something went wrong deserializing tweets, please ensure that the file is in a correct format", ex);
+                throw new Exception("Something went wrong deserializing tweets, please ensure that the file is in a correct format", ex);
             }
         }
 

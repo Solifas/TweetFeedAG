@@ -29,7 +29,7 @@ public class FileService : IFileService
         }
         catch (Exception ex)
         {
-            throw new Exception("There was an error retreiving your file", ex);
+            throw new Exception("There was an error writing to file", ex);
         }
     }
 }
