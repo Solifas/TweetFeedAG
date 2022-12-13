@@ -77,7 +77,7 @@ namespace TweetFeedAG.Infrastructure
                     {
                         foreach (var follow in following)
                         {
-                            if (users.FirstOrDefault(x => x.Name == follow.Trim())  == null)
+                            if (users.FirstOrDefault(x => x.Name == follow.Trim()) == null)
                             {
                                 users.Add(new User
                                 {
