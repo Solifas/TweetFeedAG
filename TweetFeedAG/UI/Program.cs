@@ -21,7 +21,21 @@ class Program
         try
         {
             var twitterFeedEngine = new TweetFeedEngine(new TweeterFeedSerializer(), fileService);
-            twitterFeedEngine.DisplayTweets(userFilePath: configuration["UserFilePath"] ?? "user.txt", tweetFilePath: configuration["TweetPath"] ?? "tweet.txt");
+            var twitterFeeds = twitterFeedEngine.DisplayTweets(userFilePath: configuration["UserFilePath"] ?? "user.txt", tweetFilePath: configuration["TweetPath"] ?? "tweet.txt");
+
+            if (twitterFeeds == null)
+            {
+                Console.WriteLine("There are no users or tweets.");
+                return;
+            }
+            foreach (var feed in twitterFeeds)
+            {
+                Console.WriteLine(feed.User);
+                foreach (var tweet in feed.Tweets)
+                {
+                    Console.WriteLine($"\t @{tweet.UserName}: {tweet.TweetText}");
+                }
+            }
             Console.ReadLine();
         }
         catch (Exception ex)

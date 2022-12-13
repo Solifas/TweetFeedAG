@@ -5,8 +5,8 @@ namespace TweetFeedAG.Core.Interfaces
 {
     public interface ITweeterFeedSerializer
     {
-        public List<Tweet> GetTweets(List<string> stringTweets);
-        public List<User> GetUser(string[] userFollower);
+        public List<Tweet> DeserializeTweets(List<string> stringTweets);
+        public List<User> DeserializeUsers(List<string> userFollower);
     }
 }
 

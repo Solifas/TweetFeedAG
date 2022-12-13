@@ -17,32 +17,34 @@ namespace TweetFeedAG.Core
             _fileService = fileService;
         }
 
-        public void DisplayTweets(string userFilePath, string tweetFilePath)
+        public List<Feed>? DisplayTweets(string userFilePath, string tweetFilePath)
         {
+            var userFeed = new List<Feed>();
             var stringTweets = _fileService.ReadFile(tweetFilePath).ToList();
-            var userString = _fileService.ReadFile(userFilePath);
+            var userString = _fileService.ReadFile(userFilePath).ToList();
 
-            var tweets = _tweeterFeedSerializer.GetTweets(stringTweets);
+            var tweets = _tweeterFeedSerializer.DeserializeTweets(stringTweets);
             if (tweets == null || tweets.Count == 0)
             {
-                Console.WriteLine("There are no tweets");
-                return;
+                return null;
             }
-            var users = _tweeterFeedSerializer.GetUser(userString);
+            var users = _tweeterFeedSerializer.DeserializeUsers(userString);
             if (users == null || users.Count == 0)
             {
-                Console.WriteLine("There are no users");
-                return;
+                return null;
             }
 
             foreach (var user in users)
             {
                 var allTweets = new List<Tweet>();
 
-                Console.WriteLine(user.Name);
-
                 if (user.Following == null)
                 {
+                    userFeed.Add(new Feed
+                    {
+                        User = user.Name,
+                        Tweets = new List<Tweet>()
+                    });
                     continue;
                 }
                 foreach (var followingUserName in user.Following)
@@ -54,11 +56,15 @@ namespace TweetFeedAG.Core
                     }
                 }
                 var sortedTweets = allTweets.OrderBy(x => x.Position).ToList();
-                foreach (var sortedTweet in sortedTweets)
+
+                userFeed.Add(new Feed
                 {
-                    Console.WriteLine($"\t @{sortedTweet.UserName}: {sortedTweet.TweetText} {sortedTweet.Position}");
-                }
+                    User = user.Name,
+                    Tweets = sortedTweets
+                });
             }
+
+            return userFeed;
         }
     }
 }

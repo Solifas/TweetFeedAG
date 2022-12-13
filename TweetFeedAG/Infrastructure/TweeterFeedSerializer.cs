@@ -7,7 +7,7 @@ namespace TweetFeedAG.Infrastructure
 {
     public class TweeterFeedSerializer : ITweeterFeedSerializer
     {
-        public List<Tweet> GetTweets(List<string> stringTweets)
+        public List<Tweet> DeserializeTweets(List<string> stringTweets)
         {
             try
             {
@@ -24,8 +24,8 @@ namespace TweetFeedAG.Infrastructure
                         Position = tweetPosition++
                     });
                 }
-
-                return tweets.OrderBy(x => x.Position).ToList();
+                var orderedTweets = tweets.OrderBy(x => x.Position).ToList();
+                return orderedTweets;
             }
             catch (TwitterFeedException ex)
             {
@@ -33,7 +33,7 @@ namespace TweetFeedAG.Infrastructure
             }
         }
 
-        public List<User> GetUser(string[] usersFollower)
+        public List<User> DeserializeUsers(List<string> usersFollower)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace TweetFeedAG.Infrastructure
                     {
                         foreach (var follow in following)
                         {
-                            if (users.Any(x => x.Name == follow.Trim()))
+                            if (users.FirstOrDefault(x => x.Name == follow.Trim())  == null)
                             {
                                 users.Add(new User
                                 {
@@ -87,8 +87,9 @@ namespace TweetFeedAG.Infrastructure
                         }
                     }
                 }
+                var orderdUsers = users.OrderBy(x => x.Name).ToList();
 
-                return users.OrderBy(x => x.Name).ToList();
+                return orderdUsers;
             }
             catch (Exception ex)
             {
