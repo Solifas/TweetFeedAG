@@ -21,12 +21,12 @@ class Program
         try
         {
             var twitterFeedEngine = new TweetFeedEngine(new TweeterFeedSerializer(), fileService);
-            twitterFeedEngine.DisplayTweets(userFilePath: configuration["UserFilePath"], tweetFilePath: configuration["TweetPath"]);
+            twitterFeedEngine.DisplayTweets(userFilePath: configuration["UserFilePath"] ?? "user.txt", tweetFilePath: configuration["TweetPath"] ?? "tweet.txt");
             Console.ReadLine();
         }
         catch (Exception ex)
         {
-            fileService.WriteFile(configuration["ErrorFile"], $"{ex.Message} \n Source: {JsonSerializer.Serialize(ex.Source)} \n {ex.StackTrace} {ex.InnerException}");
+            fileService.WriteFile(configuration["ErrorFile"] ?? "error.txt", $"{ex.Message} \n Source: {JsonSerializer.Serialize(ex.Source)} \n {ex.StackTrace} {ex.InnerException}");
             Console.WriteLine(ex.Message);
             Console.ReadLine();
         }

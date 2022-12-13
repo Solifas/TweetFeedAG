@@ -23,7 +23,17 @@ namespace TweetFeedAG.Core
             var userString = _fileService.ReadFile(userFilePath);
 
             var tweets = _tweeterFeedSerializer.GetTweets(stringTweets);
+            if (tweets == null || tweets.Count == 0)
+            {
+                Console.WriteLine("There are no tweets");
+                return;
+            }
             var users = _tweeterFeedSerializer.GetUser(userString);
+            if (users == null || users.Count == 0)
+            {
+                Console.WriteLine("There are no users");
+                return;
+            }
 
             foreach (var user in users)
             {
