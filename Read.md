@@ -8,8 +8,12 @@
 
     NB: make sure the path contains the extension of the file i.e txt
 
+2. You can add the tweet.txt and the user.txt in this folder path(Execution folder):
+    **** ./TweetFeedAG/TweetFeedAG/bin/Debug/net6.0/ *****
+    if you experience errors if step 1. does not work
 
 Assumptions:
+0. The file does not contain empty empty lines
 1. Tweets should be atmost 140 Characters
 2. Users can follow eac other
 3. The names of the users are unique e.g there can only be one Alan

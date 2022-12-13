@@ -43,7 +43,7 @@ namespace TweetFeedAG.Infrastructure
                 {
                     var userLine = user.Split(" follows ");
                     var userName = userLine[0].Trim();
-                    var following = userLine[1].Split(',');
+                    var following = userLine[1].Split(',', StringSplitOptions.RemoveEmptyEntries);
 
                     if (users.FirstOrDefault(x => x.Name.Trim() == userName) != null)
                     {
