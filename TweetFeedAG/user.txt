@@ -1,4 +1,3 @@
 Ward follows Alan
 Ward follows Martin, Alan
-Alan follows Martin     
-            
+Alan follows Martin
