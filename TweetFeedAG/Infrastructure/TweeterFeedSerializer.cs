@@ -29,7 +29,7 @@ namespace TweetFeedAG.Infrastructure
             }
             catch (TwitterFeedException ex)
             {
-                throw new TwitterFeedException("Something went wrong deserializing tweets", ex);
+                throw new TwitterFeedException("Something went wrong deserializing tweets, please ensure that the file is in a correct format", ex);
             }
         }
 
