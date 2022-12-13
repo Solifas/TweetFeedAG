@@ -19,38 +19,38 @@ namespace TweetFeedAG.Core
 
         public void DisplayTweets(string userFilePath, string tweetFilePath)
         {
-                var stringTweets = _fileService.ReadFile(tweetFilePath).ToList();
-                var userString = _fileService.ReadFile(userFilePath);
+            var stringTweets = _fileService.ReadFile(tweetFilePath).ToList();
+            var userString = _fileService.ReadFile(userFilePath);
 
-                var tweets = _tweeterFeedSerializer.GetTweets(stringTweets);
-                var users = _tweeterFeedSerializer.GetUser(userString);
+            var tweets = _tweeterFeedSerializer.GetTweets(stringTweets);
+            var users = _tweeterFeedSerializer.GetUser(userString);
 
-                foreach (var user in users)
+            foreach (var user in users)
+            {
+                var allTweets = new List<Tweet>();
+
+                Console.WriteLine(user.Name);
+
+                if (user.Following == null)
                 {
-                    var allTweets = new List<Tweet>();
-
-                    Console.WriteLine(user.Name);
-
-                    if (user.Following == null)
+                    continue;
+                }
+                foreach (var followingUserName in user.Following)
+                {
+                    var userTweets = tweets.Where(x => x.UserName.Trim() == followingUserName);
+                    foreach (var tweet in userTweets)
                     {
-                        continue;
+                        allTweets.Add(tweet);
                     }
-                    foreach (var followingUserName in user.Following)
-                    {
-                        var userTweets = tweets.Where(x => x.UserName.Trim() == followingUserName);
-                        foreach (var tweet in userTweets)
-                        {
-                            allTweets.Add(tweet);
-                        }
-                    }
-                    var sortedTweets = allTweets.OrderBy(x => x.Position).ToList();
-                    foreach (var sortedTweet in sortedTweets)
-                    {
-                        Console.WriteLine($"\t @{sortedTweet.UserName}: {sortedTweet.TweetText} {sortedTweet.Position}");
-                    }
+                }
+                var sortedTweets = allTweets.OrderBy(x => x.Position).ToList();
+                foreach (var sortedTweet in sortedTweets)
+                {
+                    Console.WriteLine($"\t @{sortedTweet.UserName}: {sortedTweet.TweetText} {sortedTweet.Position}");
                 }
             }
         }
     }
+}
 
 

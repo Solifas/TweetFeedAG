@@ -26,7 +26,7 @@ class Program
         }
         catch (Exception ex)
         {
-            fileService.WriteFile(configuration["ErrorFile"],$"{ex.Message} \n Source: {JsonSerializer.Serialize(ex.Source)} \n {ex.StackTrace} {ex.InnerException}");
+            fileService.WriteFile(configuration["ErrorFile"], $"{ex.Message} \n Source: {JsonSerializer.Serialize(ex.Source)} \n {ex.StackTrace} {ex.InnerException}");
             Console.WriteLine(ex.Message);
             Console.ReadLine();
         }
