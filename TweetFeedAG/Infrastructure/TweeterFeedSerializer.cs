@@ -1,4 +1,5 @@
 ﻿using System;
+using TweetFeedAG.Core.CustomException;
 using TweetFeedAG.Core.Interfaces;
 using TweetFeedAG.Core.Models;
 
@@ -6,20 +7,30 @@ namespace TweetFeedAG.Infrastructure
 {
     public class TweeterFeedSerializer : ITweeterFeedSerializer
     {
-        public List<Tweets> GetTweets(string[] stringTweets)
+        public List<Tweet> GetTweets(List<string> stringTweets)
         {
-            var tweets = new List<Tweets>();
-
-            foreach (var tweet in stringTweets)
+            try
             {
-                var kpTweet = tweet.Split(">");
-                tweets.Add(new Tweets
+                var tweets = new List<Tweet>();
+                int tweetPosition = 0;
+
+                foreach (var tweet in stringTweets)
                 {
-                    UserName = kpTweet[0].Trim(),
-                    Tweet = kpTweet[1]
-                });
+                    var userTweet = tweet.Split(">");
+                    tweets.Add(new Tweet
+                    {
+                        UserName = userTweet[0].Trim(),
+                        TweetText = userTweet[1],
+                        Position = tweetPosition++
+                    });
+                }
+
+                return tweets.OrderBy(x => x.Position).ToList();
             }
-            return tweets;
+            catch (TwitterFeedException ex)
+            {
+                throw new TwitterFeedException("Something went wrong deserializing tweets", ex);
+            }
         }
 
         public List<User> GetUser(string[] usersFollower)
@@ -31,14 +42,14 @@ namespace TweetFeedAG.Infrastructure
                 foreach (var user in usersFollower)
                 {
                     var userLine = user.Split(" follows ");
-                    var following = userLine[1].Split(',');
                     var userName = userLine[0].Trim();
+                    var following = userLine[1].Split(',');
 
-                    if (users.FirstOrDefault(x=>x.Name.Trim() == userName) != null)
+                    if (users.FirstOrDefault(x => x.Name.Trim() == userName) != null)
                     {
                         if (following.Any())
                         {
-                            users.Where(x => x.Name.Trim() == userName).FirstOrDefault(x =>
+                            _ = users.Where(x => x.Name.Trim() == userName).FirstOrDefault(x =>
                             {
                                 if (x.Following == null)
                                 {
@@ -47,27 +58,26 @@ namespace TweetFeedAG.Infrastructure
                                 else
                                 {
                                     x.Following = x.Following.Union(following);
-                            }
-                            return true;
+                                }
+                                return true;
+                            });
+                        }
+                    }
+                    else
+                    {
+                        users.Add(new User
+                        {
+                            Name = userName,
+                            Following = following.Append(userName)
                         });
                     }
-                }
-                else
-                {
-                    users.Add(new User
-                    {
-                        Name = userName,
-                        Following = following.Append(userName)
-                    });
-                }
 
-                    // logic to add the people following
-
+                    //logic to add the people the user is following
                     if (following.Any())
                     {
                         foreach (var follow in following)
                         {
-                            if (users.FirstOrDefault(x => x.Name.Trim() == follow.Trim()) == null)
+                            if (users.Any(x => x.Name == follow.Trim()))
                             {
                                 users.Add(new User
                                 {
@@ -77,12 +87,12 @@ namespace TweetFeedAG.Infrastructure
                         }
                     }
                 }
-                
-                return users;
+
+                return users.OrderBy(x => x.Name).ToList();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Something went wrong deserializing the user file, please ensure that the file is in a correct format", ex);
             }
         }
     }
